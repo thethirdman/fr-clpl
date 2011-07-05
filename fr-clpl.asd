@@ -8,6 +8,8 @@
 (defpackage :fr-clpl
     (:use :cl)
     (:export
+    :*exec-table*
+    :*log-file*
     :define-bench
     :run-bench))
 
