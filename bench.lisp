@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 ;
 
-(in-package :fr.epita.lrde.climb)
+(in-package :fr-clpl)
 
 (defparameter *exec-table* (make-hash-table))
 (defparameter *log-file* "report.log")
@@ -46,14 +46,3 @@
 	  (loop for key being the hash-keys of *exec-table* collect
 	    `(dump ',key ,@(gethash key *exec-table*))))))
 
-;------------- TEST SAMPLES --------------------
-; Problems with lambda functions
-(define-bench image-creation 1 make-image 
-  `(((100 100) :initfunc ,(lambda (s) 42))
-    ((100 100) :initfunc ,(lambda (s) 84))
-    ((100 100) :initfunc ,(lambda (s) 168))))
-
-(define-bench image-loading 150 image-load
-  `(("/lrde/beyrouth/stage/ripault/Prog/bench/guinness.jpg")))
-
-(run-bench image-loading)
