@@ -1,4 +1,3 @@
-;
 ; ----------------------------------------------------------------------------
 ; "THE BEER-WARE LICENSE" (Revision 42):
 ; <francois.ripault@epita.fr> wrote this file. As long as you retain this notice you
@@ -21,6 +20,7 @@
     (sb-profile:profile ,func)
     (with-open-file (*trace-output* ,*log-file* :direction :output :if-exists :append :if-does-not-exist :create)
       (loop for args in ,arg-list do
+	(print ,name *trace-output*)
 	(loop repeat ,number do 
 	  (handler-case
 	      (time (apply #',func args))
@@ -41,17 +41,19 @@
   (cons 'progn
 	(if bench-list
 	    (loop for bench in bench-list collect
-	      `(dump bench ,@(gethash bench *exec-table*)))
+	      `(dump ',bench ,@(gethash bench *exec-table*)))
 
 	  (loop for key being the hash-keys of *exec-table* collect
-	    `(dump key ,@(gethash key *exec-table*))))))
+	    `(dump ',key ,@(gethash key *exec-table*))))))
 
 ;------------- TEST SAMPLES --------------------
 ; Problems with lambda functions
-(define-bench image-creation 15 make-image 
-  `(((100 100) :initial-element 42)
-    ((100 100) :initial-contents 42 42)
-    ((100 100) :initfunc #(lambda (s) 42))
-    ((150 150) :initial-element 42)))
+(define-bench image-creation 1 make-image 
+  `(((100 100) :initfunc ,(lambda (s) 42))
+    ((100 100) :initfunc ,(lambda (s) 84))
+    ((100 100) :initfunc ,(lambda (s) 168))))
 
-(run-bench)
+(define-bench image-loading 150 image-load
+  `(("/lrde/beyrouth/stage/ripault/Prog/bench/guinness.jpg")))
+
+(run-bench image-loading)

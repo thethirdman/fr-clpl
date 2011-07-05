@@ -7,3 +7,9 @@
 * ----------------------------------------------------------------------------
 */
 
+Common Lisp Profiling Library is a package supposed to provide many tools to do
+profiling on projects. It's interface is inspired from lisp-unit, and CLPL aims
+to be simple and efficient in analysing common lisp programs. The idea is to give
+complete and detailed data about the program, allowing the programmer to analyse
+this data and improve his project consequently. The idea was at first here because
+of the lack of profiling tools in common lisp
