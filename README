@@ -1,11 +1,12 @@
-/*
-* ----------------------------------------------------------------------------
-* "THE BEER-WARE LICENSE" (Revision 42):
-* <francois.ripault@epita.fr> wrote this file. As long as you retain this notice you
-* can do whatever you want with this stuff. If we meet some day, and you think
-* this stuff is worth it, you can buy me a beer in return Francois Ripault
-* ----------------------------------------------------------------------------
-*/
+; README --- lol !
+; ----------------------------------------------------------------------------
+; "THE BEER-WARE LICENSE" (Revision 42):
+; <francois.ripault@epita.fr> wrote this file. As long as you retain this notice you
+; can do whatever you want with this stuff. If we meet some day, and you think
+; this stuff is worth it, you can buy me a beer in return.
+; Francois Ripault
+; ----------------------------------------------------------------------------
+;
 
 Common Lisp Profiling Library is a package supposed to provide many tools to do
 profiling on projects. It's interface is inspired from lisp-unit, and CLPL aims

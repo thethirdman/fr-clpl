@@ -1,5 +1,13 @@
 ;;; fr-clpl.asd --- ASDF system definition
-;; TODO : put beerware license
+; ----------------------------------------------------------------------------
+; "THE BEER-WARE LICENSE" (Revision 42):
+; <francois.ripault@epita.fr> wrote this file. As long as you retain this notice you
+; can do whatever you want with this stuff. If we meet some day, and you think
+; this stuff is worth it, you can buy me a beer in return.
+; Francois Ripault
+; ----------------------------------------------------------------------------
+;
+
 
 ;;; Code:
 
