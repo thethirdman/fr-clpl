@@ -8,7 +8,6 @@
 ;
 
 - Reformulate the functions dumping into the file (more clarity)
-- Redefine time function, and maybe sb-profile:report to deconstruct more easily the results, and have some treatments on it.
-- Get an option system  for the results : gc, overhead, etc ...
+- Redefine time function
 - Maybe profiling only necessary functions (when tracking subfunctions) would reduce the overhead, make a function to d othis.
 - Improve error management 

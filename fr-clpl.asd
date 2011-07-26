@@ -16,10 +16,16 @@
 (defpackage :fr-clpl
     (:use :cl)
     (:export
+    ;; fr-clpl.lisp
     :*exec-table*
     :*log-file*
     :define-bench
-    :run-bench))
+    :run-bench
+    ;; output.lisp
+    time-info
+    print-info-list
+    get-info-list))
+
 
 (asdf:defsystem
  :fr-clpl
@@ -27,5 +33,7 @@
  :author "Francois Ripault"
  :license "Beerware"
  :components
-  ((:file "bench")))
+  ((:file "fr-clpl")
+  (:file "output")
+  (:file "time-info")))
  
