@@ -6,7 +6,9 @@
 ; this stuff is worth it, you can buy me a beer in return.
 ; Francois Ripault
 ; ----------------------------------------------------------------------------
-;
+; Some parts of code in this file are inspired from the Steel bank common lisp compiler
+; Particularly from the package sb-profile
+; Therefore, if you meet one of the authors some day, don't hesitate to buy them a beer
 
 (in-package :fr-clpl)
 

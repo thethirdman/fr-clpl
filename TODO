@@ -7,7 +7,5 @@
 ; ----------------------------------------------------------------------------
 ;
 
-- Reformulate the functions dumping into the file (more clarity)
-- Redefine time function
-- Maybe profiling only necessary functions (when tracking subfunctions) would reduce the overhead, make a function to d othis.
-- Improve error management 
+- Redefine time function // Find a solution for macros
+- Maybe profiling only necessary functions (when tracking subfunctions) would reduce the overhead, make a function to do this.
