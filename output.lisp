@@ -114,5 +114,5 @@
       (incf acc (slot-value time-info 'second)))
     (loop for time-info in time-info-list collect
       (to-percent-time-info time-info (if (zerop acc) 0
-					 (/ (slot-value time-info 'second) acc)))))))
+					 (/ (slot-value time-info 'second) acc))))))
       

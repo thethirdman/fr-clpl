@@ -7,5 +7,8 @@
 ; ----------------------------------------------------------------------------
 ;
 
-- Redefine time function // Find a solution for macros
-- Maybe profiling only necessary functions (when tracking subfunctions) would reduce the overhead, make a function to do this.
+o Clean code
+o Track sub-functions
+o Autogenerate functions for inheriting class
+o Define the generic functions
+o Later : decide about other compilers

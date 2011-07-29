@@ -19,13 +19,23 @@
     ;; fr-clpl.lisp
     :*exec-table*
     :*log-file*
+    :bench
     :define-bench
     :run-bench
+    ;; time-info.lisp
+    :time-info
+    :make-time-info
+    :get-time-info-list
+    :resolve-slots
     ;; output.lisp
-    time-info
-    print-info-list
-    get-info-list))
-
+    :dashes
+    :print-table
+    :print-overhead
+    ;; percent-class - output.lisp
+    :percent-time-info
+    :make-percent-time-info
+    :to-percent-time-info
+    :get-percent-info-list))
 
 (asdf:defsystem
  :fr-clpl

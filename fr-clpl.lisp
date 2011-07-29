@@ -19,44 +19,43 @@
   number
   args)
 
-(defmacro define-bench (name function number args)
+(defun define-bench (name function number args)
   "Generate tests for function func, each one using an element of arg-list,
    being executed number times"
   (let ((bar (make-bench function number args)))
-    (setf (gethash name *exec-table*) bar)
-    (format t "exec-table : ~A~%" *exec-table*)))
+    (setf (gethash name *exec-table*) bar)))
 
-(defmacro dump (function bench)
+
+(defmacro %dump (function bench)
   "Takes a name, the number of executions of the function func
    and its args under a list, and run a bench mark, which is
    reported in *log-file*"
-  (progn
-    (with-slots ((arg-list args) number) bench
-      `(sb-profile:reset)
-      (eval `(sb-profile:profile ,function))
-      `(loop for args in arg-list do
+  `(progn
+     (with-slots ((arg-list args) number) ,bench
+       (sb-profile:reset)
+       ,(eval `(sb-profile:profile ,function))
+       (loop for arg in arg-list do
 	 (loop repeat number do 
 	   (handler-case
-	       (apply ',function args)
-	     (error (e) (print e *trace-output*)))))
-      (eval `(sb-profile:unprofile ,function)))))
-
-  
+	       (apply ',function arg)
+	     (error (e) (print e *trace-output*))))))))
+       
 (defmacro run-bench (&rest bench-list)
-  "Run all the benches stored in *exec-list*"
+  "Run all the benches stored in *exec-list*, or the one given in argument"
   (progn
     (let ((current-bench nil))
       (if bench-list
 	  (loop for bench in bench-list do
 	    (progn
-	      (format t "~A" bench)
 	      (setf current-bench (gethash bench *exec-table*))
-	      `(dump ,(slot-value current-bench 'function) ,current-bench)))
+	      `(%dump ,(slot-value current-bench 'function) ,current-bench)))
 	(loop for key being the hash-keys of *exec-table* do
 	  (progn
-	    (setf current-bench (gethash key *exec-table*))    
-	    (format t "~A" key)
-	    `(dump ,(slot-value current-bench 'function) ,current-bench)))))
-    `(get-info-list)))
+	    (setf current-bench (gethash key *exec-table*))
+	    `(%dump ,(slot-value current-bench 'function) ,current-bench)))))
+    '(prog1 
+	 (get-time-info-list)
+       (sb-profile:unprofile)
+       (sb-profile:reset))))
 
 

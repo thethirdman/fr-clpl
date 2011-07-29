@@ -24,10 +24,8 @@
 (defun make-time-info (name calls second consing gc-run-time)
   (make-instance 'time-info :name name :calls calls :second second :consing consing :gc-run-time gc-run-time))
 
-(defgeneric print-info-list (out time-list)
-  (:documentation "Generic method for printing an element, using an output object and a time-info struct"))
 
-(defun get-info-list ()
+(defun get-time-info-list ()
   "Get the results of the profiling, and retrun a time-info-list"
   (unless (boundp 'sb-profile::*overhead*)
     (setf sb-profile::*overhead* (sb-profile::compute-overhead)))
