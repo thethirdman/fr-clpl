@@ -1,0 +1,5 @@
+2011-07-31  Francois Ripault <francois.ripault@epita.fr>
+
+	* time-info.lisp: 
+	* fr-clpl.lisp: 
+	* output.lisp: Code cleaning

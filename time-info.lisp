@@ -30,15 +30,15 @@
   (unless (boundp 'sb-profile::*overhead*)
     (setf sb-profile::*overhead* (sb-profile::compute-overhead)))
   (loop for key being the hash-keys of sb-profile::*profiled-fun-name->info* collect
-    (let ((pinfo (gethash key sb-profile::*profiled-fun-name->info*)))
-      (multiple-value-bind (calls ticks consing profile gc-run-time)
-	  (funcall (sb-profile::profile-info-read-stats-fun pinfo))
-	(when (not (zerop calls))
-	  (make-time-info key calls (sb-profile::compensate-time calls ticks profile) consing gc-run-time))))))
+        (let ((pinfo (gethash key sb-profile::*profiled-fun-name->info*)))
+          (multiple-value-bind (calls ticks consing profile gc-run-time)
+            (funcall (sb-profile::profile-info-read-stats-fun pinfo))
+            (when (not (zerop calls))
+              (make-time-info key calls (sb-profile::compensate-time calls ticks profile) consing gc-run-time))))))
 
 (defmethod resolve-slots (arg-list time-info)
   "Replace slots by the corresponding values"
   (loop for arg in arg-list collect
-    (if (typep arg 'cons)
-	(write-to-string (slot-value time-info (cadr arg)) :escape nil)
-      arg)))
+        (if (typep arg 'cons)
+          (write-to-string (slot-value time-info (cadr arg)) :escape nil)
+          arg)))
