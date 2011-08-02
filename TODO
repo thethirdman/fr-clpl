@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 ;
 
-o Do some Doc
+o Do an example file
 o Improve error management
 o Track sub-functions
 o Autogenerate functions for inheriting class

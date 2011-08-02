@@ -1,0 +1,71 @@
+# Common lisp profiling library : Documentation
+===============================================
+
+Clpl (common lisp profilin library) aims to make profiling easier by offering
+two main tools : Scheduling and Output control. Currently it only works for
+Sbcl, but I'll consider integrating profiling to the package later.
+
+## Installation
+===============
+
+The easiest way to install Clpl is to use ASDF. To load the package just do :
+`(require :asdf)
+(asdf:load-system :fr-clpl)`
+
+## Scheduling
+=============
+
+The first part of Clpl is the scheduling. To schedule some tests, just use the
+function define-bench :
+
+`(define-bench name function number args)`
+
+* Name is a symbol that is used to store the bench. Later it may be used in the
+output part.
+* Function is a function symbol.
+* Number is the number of execution per args
+* Args is a list of arguments list
+
+Let's look at an example to make it clearer :
+`
+(define-bench 'my-bench 'format 42
+    '((t "first print")
+      (t "another print")))
+      `
+In this example, the first argument (t "first print") will be executed 42 times, and then the second. It returns a time-info-list that is used in the output part.
+
+To run the benches, you only have to call run-bench :
+`(run-bench &rest bench-list)`
+
+If bench names are provided, then only those will be executed, here is an example :
+`(run-bench my-bench)`
+
+## Controling the output
+========================
+
+The output is controlled by the function print-table. It allows the user to
+specify a time-info-list (obtained from run-bench), and a format to print the
+table. In this way, the output is fully customizable. We can have a nice ascII
+table, or a LaTeX output. Here is the prototype :
+
+`(print-table output arg-list time-info-list key (padding t) (head t)
+    (linesep #\-) (overhead t))`
+
+The output refers to an output stream, it can either be something like
+`*trace-output*` or a file stream.
+Arg-list is a liste made of slots and string, string acting as separators. Here
+is an example (name and gc are slots from the time-info object) :
+`("| " 'name " | " 'gc " |")`
+
+time-info-list is a list of results of type time-info-class. Each element of
+the list will be printed as a line.
+Padding (default t) is an option that makes the cells of a column of an equal
+width.
+Head (default t) prints the slots name in the first line of the table.
+Linesep (default `#\-`) is the line separator of the printed table. It is
+either a character or nil (if nil, line separators will not be printed)
+Overhead (default t) prints the overhead of the profiling, after the table.
+
+Print-table supports inheritance, in a soon future, I'll hope to create
+automatically function for the inheriting classes (such as conversion
+function), and improve the definition of inheriting classes.
