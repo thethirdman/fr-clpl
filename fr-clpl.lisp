@@ -26,8 +26,18 @@
   (let ((bar (make-bench name function number args)))
     (setf (gethash name *exec-table*) bar)))
 
+(defun update-profiling ()
+  (unless (boundp 'sb-profile::*overhead*)
+    (setf sb-profile::*overhead* (sb-profile::compute-overhead)))
+  (loop for key being the hash-keys of sb-profile::*profiled-fun-name->info* collect
+       (let ((pinfo (gethash key sb-profile::*profiled-fun-name->info*)))
+	 (multiple-value-bind (calls consing profile gc-run-time)
+	     (funcall (sb-profile::profile-info-read-stats-fun pinfo))
+	   (when (zerop calls)
+	     (eval `(sb-profile:unprofile ,key)))))))
 
-(defmacro %dump (function bench)
+	      
+(defmacro %dump (function bench &key (sub-tracking nil))
   "Takes a name, the number of executions of the function func
   and its args under a list, and run a bench mark, which is
   reported in *log-file*"
@@ -36,27 +46,27 @@
        (sb-profile:reset)
        ,(eval `(sb-profile:profile ,function))
        (loop for arg in arg-list do
-	    (loop repeat number do 
+	    (loop repeat number do
 		 (handler-case
                      (apply ',function arg)
-		   (error (e) (print e *trace-output*))))))
+		   (error (e) (print e *trace-output*)))
+		 (when ,sub-tracking 
+		   (progn ,(setf sub-tracking nil)
+			   (update-profiling))))))
      (get-time-info-list)))
 
-(defmacro run-bench (&rest bench-list)
+(defmacro run-bench (&optional (sub-tracking nil) &rest bench-list)
   "Run all the benches stored in *exec-list*, or the one given in argument"
   (progn
     (let ((current-bench nil))
       (if bench-list
 	  (loop for bench in bench-list
 	     for current-bench = (gethash bench *exec-table*) do
-	       (eval `(%dump ,(slot-value current-bench 'function) ,current-bench)))
+	       (eval `(%dump ,(slot-value current-bench 'function) ,current-bench :sub-tracking ,sub-tracking)))
 	  (loop for key being the hash-keys of *exec-table*
 	     for current-bench = (gethash key *exec-table*) do
-	       (eval `(%dump ,(slot-value current-bench 'function) ,current-bench))))
+	       (eval `(%dump ,(slot-value current-bench 'function) ,current-bench :sub-tracking ,sub-tracking))))
       '(prog1
 	(get-time-info-list)
-	(sb-profile:unprofile)
+	;(sb-profile:unprofile)
 	(sb-profile:reset)))))
-
-
-

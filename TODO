@@ -9,7 +9,7 @@
 
 o Do an example file
 o Improve error management
-o Track sub-functions
+o Track sub-functions : sb-introspect::find-function-callees
 o Autogenerate functions for inheriting class
-o Define the generic functions
+o Define the generic functions -- Clean code
 o Later : decide about other compilers
