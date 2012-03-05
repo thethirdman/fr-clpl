@@ -1,9 +1,10 @@
 # Common lisp profiling library : Documentation
 ===============================================
 
-Clpl (common lisp profilin library) aims to make profiling easier by offering
+Clpl (Common-Lisp profiling library) aims to make profiling easier by offering
 two main tools : Scheduling and Output control. Currently it only works for
-Sbcl, but I'll consider integrating profiling to the package later.
+Sbcl, but I'll consider integrating profiling to the package later in order to
+make it compiler independant.
 
 ## Installation
 ===============
@@ -32,12 +33,15 @@ Let's look at an example to make it clearer :
     '((t "first print")
       (t "another print")))
       `
-In this example, the first argument (t "first print") will be executed 42 times, and then the second. It returns a time-info-list that is used in the output part.
+In this example, the first argument (t "first print") will be executed 42
+times, and then the second. It returns a time-info-list that is used in the
+output part.
 
 To run the benches, you only have to call run-bench :
 `(run-bench &rest bench-list)`
 
-If bench names are provided, then only those will be executed, here is an example :
+If bench names are provided, then only those will be executed, here is an
+example :
 `(run-bench my-bench)`
 
 ## Controling the output
@@ -53,8 +57,8 @@ table, or a LaTeX output. Here is the prototype :
 
 The output refers to an output stream, it can either be something like
 `*trace-output*` or a file stream.
-Arg-list is a liste made of slots and string, string acting as separators. Here
-is an example (name and gc are slots from the time-info object) :
+Arg-list is a liste made of slots and string, string acting as separators.
+Here is an example (name and gc are slots from the time-info object) :
 `("| " 'name " | " 'gc " |")`
 
 time-info-list is a list of results of type time-info-class. Each element of

@@ -1,13 +1,19 @@
 ; ----------------------------------------------------------------------------
 ; "THE BEER-WARE LICENSE" (Revision 42):
-; <francois.ripault@epita.fr> wrote this file. As long as you retain this notice you
-; can do whatever you want with this stuff. If we meet some day, and you think
-; this stuff is worth it, you can buy me a beer in return.
+; <francois.ripault@epita.fr> wrote this file. As long as you retain this
+; notice you can do whatever you want with this stuff. If we meet some day, and
+; you think this stuff is worth it, you can buy me a beer in return.
 ; Francois Ripault
 ; ----------------------------------------------------------------------------
 ;
 
-o Do an example file
+o Fix Padding bug
+o Have a good visibility with use-package (instead of in-package)
+o Update documentation in order to detail the time-info slots
+o Do an example file and some test files --> LaTex tabular example
+o Add a Info-string which details the test, dumped with the results of the
+  bench. Allow to add prologue/epilogue for dumps (will allow the automatical
+  creation of tabulars, stuff like that)
 o Improve error management
 o Track sub-functions : sb-introspect::find-function-callees
 o Autogenerate functions for inheriting class

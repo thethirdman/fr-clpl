@@ -43,7 +43,7 @@
  :author "Francois Ripault"
  :license "Beerware"
  :components
-  ((:file "fr-clpl")
+ ((:file "fr-clpl")
   (:file "output")
   (:file "time-info")))
  
