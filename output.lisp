@@ -19,12 +19,12 @@
     (setf padding (- padding (length name)))
     (concatenate 'string (make-string padding :initial-element #\space) name)))
 
-(defun dashes (n c)
+(defun dashes (n c output)
   "Print a line of character c of length n. If c is nil, just prints a newline"
-  (format t "~%")
+  (format output "~%")
   (when c
-    (progn (format t "~a" (make-string n :initial-element c))
-           (format t "~%"))))
+    (progn (format output "~a" (make-string n :initial-element c))
+           (format output "~%"))))
 
 (defun print-table (output arg-list time-info-list &key (padding t) (head t) (linesep #\-) (overhead t))
   "Print a table on output, defined by arg-list, of the objects in time-info-list
@@ -52,14 +52,14 @@
     ;; Print the head of the table
     (when head
       (progn 
-        (dashes line-length linesep)
+        (dashes line-length linesep output)
         (loop for arg in arg-list for acc from 0 do
               (if padding
                 (progn
                   (format output "~a" (%format-el arg (aref max-length acc)))
                   )
                 (format output "~a" arg)))
-        (dashes line-length linesep)
+        (dashes line-length linesep output)
         ))
     ;; Print the values of the table
     (loop for time-info in time-info-list for acc from 0 do
@@ -70,7 +70,7 @@
                     (format output "~a" (%format-el arg (aref max-length acc)))
                     )
                   (format output "~a" arg)))
-          (dashes line-length linesep)
+          (dashes line-length linesep output)
           )
     (when overhead (print-overhead output time-info-list))))
 

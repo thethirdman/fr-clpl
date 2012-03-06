@@ -52,7 +52,7 @@ specify a time-info-list (obtained from run-bench), and a format to print the
 table. In this way, the output is fully customizable. We can have a nice ascII
 table, or a LaTeX output. Here is the prototype :
 
-`(print-table output arg-list time-info-list key (padding t) (head t)
+`(print-table output arg-list time-info-list &key (padding t) (head t)
     (linesep #\-) (overhead t))`
 
 The output refers to an output stream, it can either be something like

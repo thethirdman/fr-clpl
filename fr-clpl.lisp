@@ -55,18 +55,15 @@
 			   (update-profiling))))))
      (get-time-info-list)))
 
+(defun get-hashkey-list (hashtbl)
+  (loop for key being the hash-keys of hashtbl collect key))
+
 (defmacro run-bench (&optional (sub-tracking nil) &rest bench-list)
-  "Run all the benches stored in *exec-list*, or the one given in argument"
-  (progn
-    (let ((current-bench nil))
-      (if bench-list
-	  (loop for bench in bench-list
-	     for current-bench = (gethash bench *exec-table*) do
-	       (eval `(%dump ,(slot-value current-bench 'function) ,current-bench :sub-tracking ,sub-tracking)))
-	  (loop for key being the hash-keys of *exec-table*
-	     for current-bench = (gethash key *exec-table*) do
-	       (eval `(%dump ,(slot-value current-bench 'function) ,current-bench :sub-tracking ,sub-tracking))))
-      '(prog1
-	(get-time-info-list)
-	;(sb-profile:unprofile)
-	(sb-profile:reset)))))
+  "Run all the benches stored in *exec-table*, or the ones given in argument"
+  (let ((test-list nil))
+    (loop for bench in (or bench-list (get-hashkey-list *exec-table*))
+      for current-bench = (gethash bench *exec-table*) do
+      (progn
+	(eval `(%dump ,(slot-value current-bench 'function) ,current-bench :sub-tracking ,sub-tracking))
+	(setf test-list (cons (get-time-info-list) test-list))))
+    `',test-list))
