@@ -73,3 +73,12 @@ Overhead (default t) prints the overhead of the profiling, after the table.
 Print-table supports inheritance, in a soon future, I'll hope to create
 automatically function for the inheriting classes (such as conversion
 function), and improve the definition of inheriting classes.
+
+Currently, the main class used for tests is the time-info class, borrowed
+from sb-profile. Here are the slots that you can put in the format list :
+- name : the name of the profiled function
+- calls : the number of calls made during the benchmark
+- second : the total time spent during the benchmark
+- consing : the number of bytes allocated during the benchmark by the profiled
+            function
+- gc-run-time : the garbage collection time during the benchmark.
