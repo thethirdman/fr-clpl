@@ -7,7 +7,6 @@
 ; ----------------------------------------------------------------------------
 ;
 
-o Fix Padding bug
 o Have a good visibility with use-package (instead of in-package)
 o Update documentation in order to detail the time-info slots
 o Do an example file and some test files --> LaTex tabular example

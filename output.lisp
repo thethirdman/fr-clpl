@@ -45,9 +45,7 @@
       (loop for time-info in time-info-list do
             (setf arg-solved (resolve-slots arg-list time-info))
             (loop for arg in arg-solved for acc from 0 do
-                  (setf (aref max-length acc) (max (length arg) (aref max-length acc)))
-                  )
-            ))
+	      (setf (aref max-length acc) (max (length arg) (aref max-length acc))))))
     (setf line-length (reduce #'+ max-length))
     ;; Print the head of the table
     (when head
@@ -55,23 +53,18 @@
         (dashes line-length linesep output)
         (loop for arg in arg-list for acc from 0 do
               (if padding
-                (progn
-                  (format output "~a" (%format-el arg (aref max-length acc)))
-                  )
+		  (format output "~a" (%format-el arg (aref max-length acc)))
                 (format output "~a" arg)))
         (dashes line-length linesep output)
         ))
     ;; Print the values of the table
-    (loop for time-info in time-info-list for acc from 0 do
+    (loop for time-info in time-info-list do
           (setf arg-solved (resolve-slots arg-list time-info))
-          (loop for arg in arg-solved do
+          (loop for arg in arg-solved for acc from 0 do
                 (if padding
-                  (progn
                     (format output "~a" (%format-el arg (aref max-length acc)))
-                    )
-                  (format output "~a" arg)))
-          (dashes line-length linesep output)
-          )
+		  (format output "~a" arg)))
+          (dashes line-length linesep output))
     (when overhead (print-overhead output time-info-list))))
 
 (defun print-overhead (output time-info-list)
