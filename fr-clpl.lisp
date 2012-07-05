@@ -36,7 +36,7 @@
 	   (when (zerop calls)
 	     (eval `(sb-profile:unprofile ,key)))))))
 
-	      
+
 (defmacro %dump (function bench &key (sub-tracking nil))
   "Takes a name, the number of executions of the function func
   and its args under a list, and run a bench mark, which is
@@ -46,24 +46,27 @@
        (sb-profile:reset)
        ,(eval `(sb-profile:profile ,function))
        (loop for arg in arg-list do
-	    (loop repeat number do
-		 (handler-case
-                     (apply ',function arg)
-		   (error (e) (print e *trace-output*)))
-		 (when ,sub-tracking 
-		   (progn ,(setf sub-tracking nil)
-			   (update-profiling))))))
-     (get-time-info-list)))
+        (let ((tmp (loop for i in arg collect (eval i))))
+         (loop repeat number do
+          (handler-case
+           (apply ',function tmp)
+          (error (e) (print e *trace-output*)))))
+        (when ,sub-tracking
+         (progn ,(setf sub-tracking nil)
+          (update-profiling)))))
+  (get-time-info-list)))
 
 (defun get-hashkey-list (hashtbl)
   (loop for key being the hash-keys of hashtbl collect key))
 
-(defmacro run-bench (&optional (sub-tracking nil) &rest bench-list)
-  "Run all the benches stored in *exec-table*, or the ones given in argument"
-  (let ((test-list nil))
-    (loop for bench in (or bench-list (get-hashkey-list *exec-table*))
-      for current-bench = (gethash bench *exec-table*) do
-      (progn
-	(eval `(%dump ,(slot-value current-bench 'function) ,current-bench :sub-tracking ,sub-tracking))
-	(setf test-list (cons (get-time-info-list) test-list))))
-    `',test-list))
+(defmacro run-bench (&rest bench-list )
+ "Run all the benches stored in *exec-table*, or the ones given in argument"
+  (let ((ret-list nil))
+  (loop for bench in (or bench-list (get-hashkey-list *exec-table*))
+   for current-bench = (gethash bench *exec-table*) do
+   (when current-bench
+   (eval `(%dump ,(slot-value current-bench 'function) ,current-bench :sub-tracking nil)))
+    (prog1
+    (setf ret-list (cons (get-time-info-list) ret-list))
+    (sb-profile:reset)))
+    `',ret-list))

@@ -1,5 +1,11 @@
+2012-07-05  Francois Ripault <francois.ripault@epita.fr>
+
+	* fr-clpl.asd: Update asd file
+	* fr-clpl.lisp: Various fixes
+	* time-info.lisp: Fix a bug where there would be NIL results
+
 2012-03-06  Francois Ripault <francois.ripault@epita.fr>
-  
+
   Various fixes on fr-clpl
 
 	* doc.mkd: Fixed typos

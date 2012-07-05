@@ -7,14 +7,24 @@
 ; ----------------------------------------------------------------------------
 ;
 
+By order of importance:
+
+o Redesign fully the code: improve main-functions (dump & run-bench),
+  improve definition of variables used for benches (maybe a collection class,
+  with properties), add categories for benches (such as categories for images, ...)
+
 o Have a good visibility with use-package (instead of in-package)
-o Update documentation in order to detail the time-info slots
-o Do an example file and some test files --> LaTex tabular example
-o Add a Info-string which details the test, dumped with the results of the
-  bench. Allow to add prologue/epilogue for dumps (will allow the automatical
-  creation of tabulars, stuff like that)
+
 o Improve error management
+
+o Update documentation in order to detail the time-info slots
+
+o Add a Info-string which details the test, dumped with the results of the
+  bench. Allow to add prologue/epilogue for dumps (will allow the automated
+  creation of tabulars, stuff like that)
+
 o Track sub-functions : sb-introspect::find-function-callees
-o Autogenerate functions for inheriting class
-o Define the generic functions -- Clean code
-o Later : decide about other compilers
+
+o Decide about other compilers (include the profiler in the package)
+  - This would also require a detailled analysis of the different profiler
+    implementation, and if-possible, have an implementation with less overhead

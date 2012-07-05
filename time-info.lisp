@@ -24,17 +24,17 @@
 (defun make-time-info (name calls second consing gc-run-time)
   (make-instance 'time-info :name name :calls calls :second second :consing consing :gc-run-time gc-run-time))
 
-
 (defun get-time-info-list ()
   "Get the results of the profiling, and retrun a time-info-list"
   (unless (boundp 'sb-profile::*overhead*)
     (setf sb-profile::*overhead* (sb-profile::compute-overhead)))
-  (loop for key being the hash-keys of sb-profile::*profiled-fun-name->info* collect
+  (delete-if #'null
+   (loop for key being the hash-keys of sb-profile::*profiled-fun-name->info* collect
         (let ((pinfo (gethash key sb-profile::*profiled-fun-name->info*)))
           (multiple-value-bind (calls ticks consing profile gc-run-time)
             (funcall (sb-profile::profile-info-read-stats-fun pinfo))
             (when (not (zerop calls))
-              (make-time-info key calls (sb-profile::compensate-time calls ticks profile) consing gc-run-time))))))
+              (make-time-info key calls (sb-profile::compensate-time calls ticks profile) consing gc-run-time)))))))
 
 (defmethod resolve-slots (arg-list time-info)
   "Replace slots by the corresponding values"
